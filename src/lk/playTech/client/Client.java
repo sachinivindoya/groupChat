@@ -6,6 +6,7 @@ import lk.playTech.controller.ClientFormController;
 import java.io.*;
 import java.net.Socket;
 
+
 public class Client {
     private Socket socket;
     BufferedReader bufferedReader;
@@ -73,4 +74,6 @@ public class Client {
         }
     }
 
-}
+    }
+
+

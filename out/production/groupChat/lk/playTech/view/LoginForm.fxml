@@ -57,5 +57,11 @@
             </ImageView>
          </children>
       </AnchorPane>
+      <Text layoutX="14.0" layoutY="527.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All Right Reserved - 2023" />
+      <Text fill="#c7370a" layoutX="360.0" layoutY="527.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Develpoed@ PlayTech">
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

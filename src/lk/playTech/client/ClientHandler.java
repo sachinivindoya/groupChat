@@ -2,9 +2,10 @@ package lk.playTech.client;
 
 import java.io.*;
 import java.net.Socket;
+import java.nio.file.Files;
 import java.util.ArrayList;
 
-public class ClientHandler implements Runnable{
+public class ClientHandler implements Runnable {
 
 
     public static ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
@@ -12,6 +13,10 @@ public class ClientHandler implements Runnable{
     private Socket socket;
     private BufferedReader bufferedReader;
     private BufferedWriter bufferedWriter;
+    ObjectOutputStream objectOutputStream = null;
+    ObjectInputStream objectInputStream = null;
+    private File filePath;
+
 
 
     public ClientHandler(Socket socket) {
@@ -27,6 +32,7 @@ public class ClientHandler implements Runnable{
             e.printStackTrace();
         }
     }
+
     @Override
     public void run() {
         String message;
@@ -49,7 +55,7 @@ public class ClientHandler implements Runnable{
 
 
     public void broadcastMessage(String sendingMessage) {
-        System.out.println("Sending Message : "+sendingMessage);
+        System.out.println("Sending Message : " + sendingMessage);
         try {
             for (ClientHandler clientHandler : clientHandlers) {
                 if (!clientHandler.userName.equals(userName)) {
@@ -77,6 +83,25 @@ public class ClientHandler implements Runnable{
                 socket.close();
                 System.out.println("A client left from chat");
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void SendImageToClients(Socket socket) {
+        try {
+            OutputStream outputStream = socket.getOutputStream();
+
+            // Load the image into a byte array
+            File imageFile = new File(String.valueOf(filePath));
+            byte[] imageData = Files.readAllBytes(imageFile.toPath());
+
+            // Send the image to the client
+            outputStream.write(imageData);
+            outputStream.flush();
+
+            System.out.println("Image sent to client: " + socket);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
