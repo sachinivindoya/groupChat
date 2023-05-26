@@ -1,3 +1,5 @@
+package lk.playTech.controller;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -13,7 +15,7 @@ public class Server {
         while (!(serverSocket.isClosed())) {
             try {
                 Socket socket = serverSocket.accept();
-                System.out.println("new Client Connected");
+                System.out.println("new lk.playTech.controller.Client Connected");
                 Thread thread = new Thread(new ClientHandler(socket));
                 thread.start();
             } catch (IOException e) {
@@ -27,7 +29,7 @@ public class Server {
         try {
             if (serverSocket != null) {
                 serverSocket.close();
-                System.out.println("Server Closed");
+                System.out.println("lk.playTech.controller.Server Closed");
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,5 +1,10 @@
+package lk.playTech.controller;
+
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import lk.playTech.controller.ClientFormController;
 
 import java.io.*;
 import java.net.Socket;
@@ -22,7 +27,9 @@ public class Client {
         }
 
 
-    } public void clientSendMessage(String message) {
+    }
+
+    public void clientSendMessage(String message) {
         try {
             bufferedWriter.write(username + " : " + message);
             bufferedWriter.newLine();
@@ -32,6 +39,7 @@ public class Client {
             closeEverything(socket, bufferedWriter, bufferedReader);
         }
     }
+
     public void listenForMessage(VBox vBox){
         new Thread(new Runnable() {
             @Override
@@ -50,6 +58,7 @@ public class Client {
             }
         }).start();
     }
+
     public void closeEverything(Socket socket, BufferedWriter bufferedWriter, BufferedReader bufferedReader){
         try {
             if (bufferedReader != null ){
@@ -68,6 +77,23 @@ public class Client {
             e.printStackTrace();
         }
     }
+
+
+    public static void receiveMessage(String message, VBox vBox){
+        HBox hBox = new HBox();
+        hBox.setStyle("-fx-alignment: center-left;-fx-fill-height: true;-fx-min-height: 50;-fx-pref-width: 520;-fx-max-width: 520;-fx-padding: 10");
+        Label messageLbl = new Label(message);
+        messageLbl.setStyle("-fx-background-color:   #2980b9;-fx-background-radius:15;-fx-font-size: 18;-fx-font-weight: normal;-fx-text-fill: white;-fx-wrap-text: true;-fx-alignment: center-left;-fx-content-display: left;-fx-padding: 10;-fx-max-width: 350;");
+        hBox.getChildren().add(messageLbl);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                vBox.getChildren().add(hBox);
+            }
+        });
+    }
+
+
 }
 
 
