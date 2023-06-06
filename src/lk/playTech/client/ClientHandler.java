@@ -13,9 +13,8 @@ public class ClientHandler implements Runnable {
     private Socket socket;
     private BufferedReader bufferedReader;
     private BufferedWriter bufferedWriter;
-    ObjectOutputStream objectOutputStream = null;
-    ObjectInputStream objectInputStream = null;
     private File filePath;
+
 
 
 
@@ -27,13 +26,13 @@ public class ClientHandler implements Runnable {
             this.userName = bufferedReader.readLine();
             clientHandlers.add(this);
             broadcastMessage(userName + "Joined Chat...!");
+
         } catch (IOException e) {
-            closeEverything(socket, bufferedReader, bufferedWriter);
             e.printStackTrace();
         }
     }
 
-    @Override
+        @Override
     public void run() {
         String message;
         while (socket.isConnected()) {
@@ -88,22 +87,6 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    private void SendImageToClients(Socket socket) {
-        try {
-            OutputStream outputStream = socket.getOutputStream();
 
-            // Load the image into a byte array
-            File imageFile = new File(String.valueOf(filePath));
-            byte[] imageData = Files.readAllBytes(imageFile.toPath());
-
-            // Send the image to the client
-            outputStream.write(imageData);
-            outputStream.flush();
-
-            System.out.println("Image sent to client: " + socket);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
-}
+

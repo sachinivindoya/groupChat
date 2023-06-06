@@ -22,8 +22,8 @@ public class LoginFormController {
             Stage stage = (Stage) paneLogin.getScene().getWindow();
             try {
                 stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/ClientForm.fxml"))));
-                stage.setMaximized(true);
-                stage.setResizable(true);
+                stage.setMaximized(false);
+                stage.setResizable(false);
                 stage.setTitle(txtLogin.getText() + " | Play Tech Chat");
             } catch (IOException e) {
                 e.printStackTrace();

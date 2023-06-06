@@ -1,34 +1,26 @@
 package lk.playTech.controller;
-
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import lk.playTech.client.Client;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.Socket;
 import java.net.URL;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.nio.file.Files;
 import java.util.ResourceBundle;
 
 public class ClientFormController implements Initializable {
@@ -46,9 +38,12 @@ public class ClientFormController implements Initializable {
     public ScrollPane sp_emoji;
     public GridPane gp_emoji;
     private Client client;
+    BufferedReader bufferedReader;
+    PrintWriter writer;
+    Socket socket;
     private FileChooser fileChooser;
     private File filePath;
-    Socket socket;
+
     int[] emojis = {
             0x1F606,
             0x1F601,
@@ -103,7 +98,7 @@ public class ClientFormController implements Initializable {
             sendMessage(message);
             txtMgType.clear();
             client.clientSendMessage(message);
-//            textField.clear();
+
         }
     }
 
@@ -138,76 +133,19 @@ public class ClientFormController implements Initializable {
     }
 
     public void btnImageOnAction(MouseEvent mouseEvent) throws IOException {
-
-        fileChooser = new FileChooser();
+        FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select image to send.");
-        filePath = fileChooser.showOpenDialog(new Stage());
-        InputStream inputStream = socket.getInputStream();
-
-        // Create a byte array to hold the received image data
-        byte[] imageData = new byte[1024];
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-
-        int bytesRead;
-        while ((bytesRead = inputStream.read(imageData)) != -1) {
-            buffer.write(imageData, 0, bytesRead);
-        }
-
-        // Get the received image data as a byte array
-        byte[] receivedImageData = buffer.toByteArray();
-
-        // Process the received image data as desired
-        Image image = new Image(filePath.toURI().toString());
-        System.out.println("Line  91 : " + image);
-        ImageView imageView = new ImageView(image);
-        System.out.println("Line  93 : " + imageView);
-        imageView.setFitHeight(150);
-        imageView.setFitWidth(200);
-
-        System.out.println("Image received from server.");
+        System.out.println("choose file");
+        File file = fileChooser.showOpenDialog(new Stage());
 
 
     }
 
 
-
-
-
-        // Create a byte array to hold the received image data
-
-
-       /* System.out.println(file.getParent());
-        BufferedImage bufferedImage = ImageIO.read(new File(file.getPath()));
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        String fileName = file.getName();
-        String extension = "";
-        int i = fileName.lastIndexOf('.');
-        if (i > 0) {
-            extension = fileName.substring(i+1);
-        }
-
-        ImageIO.write(bufferedImage,extension,bos);
-        byte[] data = bos.toByteArray();
-        client.clientSendImage(data,extension,file.getName());*/
-
-
-
     public void btnFilesOnAction(MouseEvent mouseEvent) throws IOException {
-
-         fileChooser = new FileChooser();
-//        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image","*.jpg;*.png;*.jpeg;*.gif;"));
+        FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select image to send.");
         File file = fileChooser.showOpenDialog(new Stage());
-        System.out.println(file.getParent());
-        BufferedImage bufferedImage = ImageIO.read(new File(file.getPath()));
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        String fileName = file.getName();
-        String extension = "";
-        int i = fileName.lastIndexOf('.');
-        if (i > 0) {
-            extension = fileName.substring(i+1);
-        }
-
 
 
     }

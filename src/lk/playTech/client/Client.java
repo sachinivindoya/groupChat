@@ -13,13 +13,13 @@ public class Client {
     BufferedWriter bufferedWriter;
     private String username;
 
-    public Client(Socket socket,String username){
-        try{
+    public Client(Socket socket, String username) {
+        try {
             this.socket = socket;
             this.username = username;
             this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
             closeEverything(socket, bufferedWriter, bufferedReader);
         }
@@ -36,7 +36,7 @@ public class Client {
         }
     }
 
-    public void listenForMessage(VBox vBox){
+    public void listenForMessage(VBox vBox) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -55,25 +55,26 @@ public class Client {
         }).start();
     }
 
-    public void closeEverything(Socket socket, BufferedWriter bufferedWriter, BufferedReader bufferedReader){
+    public void closeEverything(Socket socket, BufferedWriter bufferedWriter, BufferedReader bufferedReader) {
         try {
-            if (bufferedReader != null ){
+            if (bufferedReader != null) {
                 bufferedReader.close();
             }
 
-            if (bufferedWriter != null ){
+            if (bufferedWriter != null) {
                 bufferedWriter.close();
             }
 
-            if (socket != null ){
+            if (socket != null) {
                 socket.close();
             }
 
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    }
+
+}
 
 
